@@ -1,142 +1,142 @@
-redshift, z QSO
-psfmag_u, u
-psfmagerr_u, uErr
-psfmag_g, g
-psfmagerr_g, gErr
-psfmag_r, r
-psfmagerr_r, rErr
-psfmag_i, i
-psfmagerr_i, iErr
-psfmag_z, z
-psfmagerr_z, zErr
-a_u, A_u
-lgnh, log[n_h]
-firstmag, first flux
-twomassmag_j, J
-twomassmagerr_j, Jerr
-twomassmag_h, H
-twomassmagerr_h, Herr
-twomassmag_k, K
-twomassmagerr_k, Kerr
-twomass_sep, 2MASS sep
-twomass_flag, 2MASS flag
-m_i, M_i
-delgi, delta(g-i)
-ts_b_lowz, ts b lowz
-ts_b_hiz, ts b hiz
-ts_b_first, ts b first
-ts_b_rosat, ts b rosat
-ts_b_serendip, ts b serendip
-ts_b_star, ts b star
-ts_b_gal, ts b gal
-run_best, run best
-mjd_best, mjd best
-rerun_best, rerun best
-camcol_best, camcol best
-field_best, field best
-obj_best, obj best
-targprimtarget, targprimtarget
-ts_t_lowz, ts t lowz
-ts_t_hiz, ts t hiz
-ts_t_first, ts t first
-ts_t_rosat, ts t rosat
-ts_t_serendip, ts t serendip
-ts_t_star, ts t star
-ts_t_gal, ts t gal
-t_psfmag_u, t psfmag u
-t_psfmagerr_u, t psfmagerr u
-t_psfmag_g, t psfmag g
-t_psfmagerr_g, t psfmagerr g
-t_psfmag_r, t psfmag r
-t_psfmagerr_r, t psfmagerr r
-t_psfmag_i, t psfmag i
-t_psfmagerr_i, t psfmagerr i
-t_psfmag_z, t psfmag z
-t_psfmagerr_z, t psfmagerr z
-oldname_type, oldname type
-oldname_desig, oldname desig
-qid, QSOId
-plate, plate
-fiber, fiber
-mjd, mjd
-z_s10, z qso (S10)
-z_best, z qso (best)
-bal_flag, BAL flag
-bal_flag2, BAL flag2
-flux_first, flux first
-snr_first, snr first
-target_first, SDSSFIRST target flag
-sep_first, sep first
-iabmag, M_i
-z_fgal, z fg gal
-spec_avesnr, spec <SNR>
-spec_medsnr, spec median SNR
-spec_avesnr_red, spec <SNR> red
-spec_medsnr_red, spec median SNR red
-w_limit_1216_1241, W limit 1216-1241
-w_limit_1241_1400, W limit 1241-1400
-w_limit_1400_1549, W limit 1400-1549
-w_limit_1549_1909, W limit 1549-1909
-w_limit_1909_2799, W limit 1909-2799
-w_limit_2799_3969, W limit 2799-3969
-w_limit_3969_8200, W limit 396- 8200
-sid, sysId
-zab, z (abs)
-lam_low, lam low
-lam_high, lam high
-lid, lineId
-obs_lam, obs lam
-w_obs, Wobs
-w_obserr, Wobserr
-ion_lam, ion lam
-ion_name, ion name
-ly_a, in lya forest
-sys_zab, sys zab
-sys_lam_low, sys lam low
-sys_lam_high, sys lam high
-sys_grade, sys grade
-sys_type, sys type
-sys_beta, sys beta
-arr_lid, arr lid
-agg_lid, agg lid
-agg_line_obs_lam, agg line obs lam
-agg_line_w_obs, agg line Wobs
-agg_line_w_obserr, agg line Wobserr
-agg_line_w_rest, agg line W rest
-agg_line_w_resterr, agg line W resterr
-agg_line_ion_lam, agg line ion lam
-agg_line_ion_name, agg line ion name
-agg_line_ly_a, agg line in lya forest
-agg_line_deltaz, agg line deltaz
-agg_line_deltav, agg line deltav
-agg_line_snr, agg line snr
-agg_line_fwhm, agg line fwhm
-qso_z_best, qso z best
-qso_imag, qso imag
-qso_bal_flag, qso bal flag
-qso_bal_flag2, qso bal flag2
-qso_z_fgal, qso z fgal
-qso_spec_avesnr, qso spec avesnr
-qso_spec_medsnr, qso spec medsnr
-qso_spec_avesnr_red, qso spec avesnr red
-qso_spec_medsnr_red, qso spec medsnr red
-qso_w_limit_1216_1241, qso W limit 1216 1241
-qso_w_limit_1241_1400, qso W limit 1241 1400
-qso_w_limit_1400_1549, qso W limit 1400 1549
-qso_w_limit_1549_1909, qso W limit 1549 1909
-qso_w_limit_1909_2799, qso W limit 1909 2799
-qso_w_limit_2799_3969, qso W limit 2799 3969
-qso_w_limit_3969_8200, qso W limit 3969 8200
-line_obs_lam, line obs lam
-line_w_obs, line Wobs
-line_w_obserr, line Wobserr
-line_w_rest, line Wrest
-line_w_resterr, line Wresterr
-line_ion_lam, line ion lam
-line_ion_name, line ion name
-line_ly_a, line in lya forest
-line_deltaz, line deltaz
-line_deltav, line deltav
-line_snr, line snr
-line_fwhm, line fwhm
-qso_agg_ab_sys, qso agg ab sys
+a_u,A_u,numeric
+agg_lid,agg lid,similar
+agg_line_deltav,agg line deltav,similar
+agg_line_deltaz,agg line deltaz,similar
+agg_line_fwhm,agg line fwhm,similar
+agg_line_ion_lam,agg line ion lam,
+agg_line_ion_name,agg line ion name,similar
+agg_line_ly_a,agg line in lya forest,similar
+agg_line_obs_lam,agg line obs lam,similar
+agg_line_snr,agg line snr,similar
+agg_line_w_obs,agg line Wobs,similar
+agg_line_w_obserr,agg line Wobserr,similar
+agg_line_w_rest,agg line W rest,similar
+agg_line_w_resterr,agg line W resterr,similar
+arr_lid,arr lid,similar
+bal_flag,BAL flag,numeric
+bal_flag2,BAL flag2,numeric
+camcol_best,camcol best,numeric
+delgi,delta(g-i),numeric
+fiber,fiber,numeric
+field_best,field best,numeric
+firstmag,first flux,numeric
+flux_first,flux first,numeric
+iabmag,M_i,numeric
+ion_lam,ion lam,categorical
+ion_name,ion name,numeric
+lam_high,lam high,numeric
+lam_low,lam low,numeric
+lgnh,log[n_h],numeric
+lid,lineId,numeric
+line_deltav,line deltav,numeric
+line_deltaz,line deltaz,numeric
+line_fwhm,line fwhm,numeric
+line_ion_lam,line ion lam,categorical
+line_ion_name,line ion name,numeric
+line_ly_a,line in lya forest,bool
+line_obs_lam,line obs lam,numeric
+line_snr,line snr,numeric
+line_w_obs,line Wobs,numeric
+line_w_obserr,line Wobserr,numeric
+line_w_rest,line Wrest,numeric
+line_w_resterr,line Wresterr,numeric
+ly_a,in lya forest,bool
+m_i,M_i,numeric
+mjd,mjd,numeric
+mjd_best,mjd best,numeric
+obj_best,obj best,numeric
+obs_lam,obs lam,numeric
+oldname_desig,oldname desig,numeric
+oldname_type,oldname type,numeric
+plate,plate,numeric
+psfmag_g,g,numeric
+psfmag_i,i,numeric
+psfmag_r,r,numeric
+psfmag_u,u,numeric
+psfmag_z,z,numeric
+psfmagerr_g,gErr,numeric
+psfmagerr_i,iErr,numeric
+psfmagerr_r,rErr,numeric
+psfmagerr_u,uErr,numeric
+psfmagerr_z,zErr,numeric
+qid,QSOId,numeric
+qso_agg_ab_sys,qso agg ab sys,similar
+qso_bal_flag,qso bal flag,numeric
+qso_bal_flag2,qso bal flag2,numeric
+qso_imag,qso imag,numeric
+qso_spec_avesnr,qso spec avesnr,numeric
+qso_spec_avesnr_red,qso spec avesnr red,numeric
+qso_spec_medsnr,qso spec medsnr,numeric
+qso_spec_medsnr_red,qso spec medsnr red,numeric
+qso_w_limit_1216_1241,qso W limit 1216-1241,numeric
+qso_w_limit_1241_1400,qso W limit 1241-1400,numeric
+qso_w_limit_1400_1549,qso W limit 1400-1549,numeric
+qso_w_limit_1549_1909,qso W limit 1549-1909,numeric
+qso_w_limit_1909_2799,qso W limit 1909-2799,numeric
+qso_w_limit_2799_3969,qso W limit 2799-3969,numeric
+qso_w_limit_3969_8200,qso W limit 3969-8200,numeric
+qso_z_best,qso z best,numeric
+qso_z_fgal,qso z fgal,numeric
+redshift,z QSO,numeric
+rerun_best,rerun best,numeric
+run_best,run best,numeric
+sep_first,sep first,numeric
+sid,sysId,numeric
+snr_first,snr first,numeric
+spec_avesnr,spec <SNR>,numeric
+spec_avesnr_red,spec <SNR> red,numeric
+spec_medsnr,spec median SNR,numeric
+spec_medsnr_red,spec median SNR red,numeric
+sys_beta,sys beta,numeric
+sys_grade,sys grade,numeric
+sys_lam_high,sys lam high,numeric
+sys_lam_low,sys lam low,numeric
+sys_type,sys type,numeric
+sys_zab,sys zab,numeric
+t_psfmag_g,t psfmag g,numeric
+t_psfmag_i,t psfmag i,numeric
+t_psfmag_r,t psfmag r,numeric
+t_psfmag_u,t psfmag u,numeric
+t_psfmag_z,t psfmag z,numeric
+t_psfmagerr_g,t psfmagerr g,numeric
+t_psfmagerr_i,t psfmagerr i,numeric
+t_psfmagerr_r,t psfmagerr r,numeric
+t_psfmagerr_u,t psfmagerr u,numeric
+t_psfmagerr_z,t psfmagerr z,numeric
+target_first,SDSSFIRST target flag,numeric
+targprimtarget,targprimtarget,numeric
+ts_b_first,ts b first,bool
+ts_b_gal,ts b gal,bool
+ts_b_hiz,ts b hiz,bool
+ts_b_lowz,ts b lowz,bool
+ts_b_rosat,ts b rosat,bool
+ts_b_serendip,ts b serendip,bool
+ts_b_star,ts b star,bool
+ts_t_first,ts t first,bool
+ts_t_gal,ts t gal,bool
+ts_t_hiz,ts t hiz,bool
+ts_t_lowz,ts t lowz,bool
+ts_t_rosat,ts t rosat,bool
+ts_t_serendip,ts t serendip,bool
+ts_t_star,ts t star,bool
+twomass_flag,2MASS flag,numeric
+twomass_sep,2MASS sep,numeric
+twomassmag_h,H,numeric
+twomassmag_j,J,numeric
+twomassmag_k,K,numeric
+twomassmagerr_h,Herr,numeric
+twomassmagerr_j,Jerr,numeric
+twomassmagerr_k,Kerr,numeric
+w_limit_1216_1241,W limit 1216-1241,numeric
+w_limit_1241_1400,W limit 1241-1400,numeric
+w_limit_1400_1549,W limit 1400-1549,numeric
+w_limit_1549_1909,W limit 1549-1909,numeric
+w_limit_1909_2799,W limit 1909-2799,numeric
+w_limit_2799_3969,W limit 2799-3969,numeric
+w_limit_3969_8200,W limit 396- 8200,numeric
+w_obs,Wobs,numeric
+w_obserr,Wobserr,numeric
+z_best,z qso (best),numeric
+z_fgal,z fg gal,numeric
+z_s10,z qso (S10),numeric
+zab,z (abs),numeric

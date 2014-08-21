@@ -719,7 +719,8 @@ GRANT SELECT ON TABLE cat_join_sys_mv TO sdss;
 
 CREATE TABLE column_alias (
     columnName varchar(30),
-    aliasName varchar(255)
+    aliasName varchar(255),
+    formtype varchar(30)
     );
 
 ALTER TABLE public.column_alias OWNER TO sdss_dev;
