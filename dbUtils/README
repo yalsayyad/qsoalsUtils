@@ -5,9 +5,12 @@ Process for building a database from scratch:
 1) Edit and run makeCatTables.py for example.
 python makeCatTables.py /var/www/html/sdssdr7/dr7/dr71_dat_clean masterOut.txt
 
+
 2) create new database in psql: e.g. CREATE DATABASE <dnname>
 
 3) edit schema.sql and ingest.sql to reflect changes in the catalog files
+To give new columns a mapping from column name to the alias that appears on the website forms, edit: "column2Name.dat" too.
 
 4) ./setupDatabase.sh <databaseName> <username>
+This will run schema.sql and ingest.sql
 (if you have a .pgpass file it won't ask you for a usersname. This step may require superuser perms)

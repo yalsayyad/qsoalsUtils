@@ -717,7 +717,16 @@ GRANT ALL ON TABLE cat_join_sys_mv TO sdss_dev;
 GRANT SELECT ON TABLE cat_join_sys_mv TO sdss;
 
 
+CREATE TABLE column_alias (
+    columnName varchar(30),
+    aliasName varchar(255),
+    formtype varchar(30)
+    );
 
-
-
+ALTER TABLE public.column_alias OWNER TO sdss_dev;
+ALTER TABLE ONLY column_alias
+    ADD CONSTRAINT column_alias_pkey PRIMARY KEY (columnName);
+REVOKE ALL ON TABLE column_alias FROM PUBLIC;
+GRANT ALL ON TABLE column_alias TO sdss_dev;
+GRANT SELECT ON TABLE column_alias TO sdss;
 
