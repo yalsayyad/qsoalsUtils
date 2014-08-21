@@ -90,7 +90,8 @@ import pyfits
 # Initialize estimator
 estimator = RandomForestClassifier(n_estimators=20, max_depth=20, criterion='entropy')
 
-# Create data
+## set rest-frame W (2796A) lower limit
+wlim = 0.0
 
 ## Make test set
 tt_fiber = []
@@ -129,19 +130,20 @@ for line in open('dr7_MgII_in_dr4.dat').readlines():
         grade = str(cols[4])
         dtype = str(cols[5])
         counter+=1
-        tt_fiber.append(fiber)
-        tt_zabs.append(zabs)
-        tt_W.append(MgII_ew1/(1.+zabs))
-        tt_Werr.append(MgII_ewer1/(1.+zabs))
-        tt_SNR.append(MgII_ew1/MgII_ewer1)
-        tt_DR.append(MgII_ew1/MgII_ew2)
-        tt_grade.append(lettonum_grade(grade))
-        tt_type.append(lettonum_type(dtype))
-        tt_zqso.append(zqso)
-        tt_beta.append(beta)
-        tt_imag.append(imag)
-        tt_BAL.append(BAL1)
-        tt_pfm.append(str(plate).zfill(4)+'-'+str(fiber).zfill(3)+'-'+str(mjd))
+        if MgII_ew1/(1.+zabs)>wlim:
+            tt_fiber.append(fiber)
+            tt_zabs.append(zabs)
+            tt_W.append(MgII_ew1/(1.+zabs))
+            tt_Werr.append(MgII_ewer1/(1.+zabs))
+            tt_SNR.append(MgII_ew1/MgII_ewer1)
+            tt_DR.append(MgII_ew1/MgII_ew2)
+            tt_grade.append(lettonum_grade(grade))
+            tt_type.append(lettonum_type(dtype))
+            tt_zqso.append(zqso)
+            tt_beta.append(beta)
+            tt_imag.append(imag)
+            tt_BAL.append(BAL1)
+            tt_pfm.append(str(plate).zfill(4)+'-'+str(fiber).zfill(3)+'-'+str(mjd))
 X_test = []
 print "%i Mg II detections in DR7 quasars" % (counter)
 
@@ -188,27 +190,29 @@ for vi_file in vi_files:
             cols = line.split()
             # plate-fiber-mjd  zqso imag zabs grade type MgII_ew1 MgIIewer1 MgII_ew2 MgII_ewer2 beta BAL1 BAL2 VI notes
             counter+=1
-            t_fiber.append(int(str(cols[0]).split('-')[1]))
-            t_zabs.append(float(cols[3]))
-            t_W.append(float(cols[6])/(1.+float(cols[3])))
-            t_Werr.append(float(cols[7])/(1.+float(cols[3])))
-            t_SNR.append(float(cols[6])/float(cols[7]))
-            t_DR.append(float(cols[6])/float(cols[8]))
-            t_grade.append(lettonum_grade(str(cols[4])))
-            t_type.append(lettonum_type(str(cols[5])))
-            t_zqso.append(float(cols[1]))
-            t_imag.append(float(cols[2]))
-            t_beta.append(float(cols[10]))
-            t_BAL.append(int(cols[11]))
-            t_pfm.append(str(cols[0]))
-            if str(cols[0]) not in pfm_unique:
-                pfm_unique.append(str(cols[0]))
-            if str(cols[13])=='good':
-                t_good.append(1)
-            #elif str(cols[13])=='bad':
-            else:
-                t_good.append(0)
-print "Size of training set: %i" % (counter)
+            if float(cols[6])/(1.+float(cols[3]))>wlim:
+
+                t_fiber.append(int(str(cols[0]).split('-')[1]))
+                t_zabs.append(float(cols[3]))
+                t_W.append(float(cols[6])/(1.+float(cols[3])))
+                t_Werr.append(float(cols[7])/(1.+float(cols[3])))
+                t_SNR.append(float(cols[6])/float(cols[7]))
+                t_DR.append(float(cols[6])/float(cols[8]))
+                t_grade.append(lettonum_grade(str(cols[4])))
+                t_type.append(lettonum_type(str(cols[5])))
+                t_zqso.append(float(cols[1]))
+                t_imag.append(float(cols[2]))
+                t_beta.append(float(cols[10]))
+                t_BAL.append(int(cols[11]))
+                t_pfm.append(str(cols[0]))
+                if str(cols[0]) not in pfm_unique:
+                    pfm_unique.append(str(cols[0]))
+                if str(cols[13])=='good':
+                    t_good.append(1)
+                #elif str(cols[13])=='bad':
+                else:
+                    t_good.append(0)
+print "Size of training set: %i" % (len(t_good))
 print "Fraction of repeats in training set: %.4f " % (float(counter-len(pfm_unique))/counter)
 size_data = len(t_good)
 X_train = []     
@@ -256,11 +260,12 @@ estimator.fit(X_train, Y)
 #X_test = X_test2
 # Results
 probs = estimator.predict_proba(X_test)
+probs_dr7 = probs
 
 # cross-validation tests
 Xtrain, Xtest, ytrain, ytest = train_test_split(np.array(X_train), np.array(Y), test_size=0.3, random_state=0)
 estimator.fit(Xtrain, ytrain)
-print estimator.score(Xtest, ytest)
+print "Correctness from cross-validation with 30 percent of sample: %0.4f" % (estimator.score(Xtest, ytest))
 probs = estimator.predict_proba(Xtest)
 X_test = Xtest
 
@@ -286,11 +291,6 @@ binnum = 10
 binwidth=(binmax-binmin)/binnum
 for m in range(0,binnum):
     bbins.append(binmin+m*binwidth)
-pl.clf()
-pl.hist(goodprobs, bbins, histtype='step', normed='True',label='good')
-pl.hist(badprobs, bbins, histtype='step', normed='True',label='bad')
-pl.legend(numpoints=1)
-pl.savefig('trainingset_probs.png')
         
 # make plots of the probability of each system in the DR7, by grade
 gradeAprobs = []
@@ -415,11 +415,51 @@ for m in range(0,len(poss_scores)):
     contamination.append(false_positives/(true_positives+false_positives))
     purity.append(1.-false_positives/(true_positives+false_positives))
     totscores.append(poss_scores[m])
-print completeness
-print contamination
+
 pl.clf()
 pl.plot(totscores, completeness, 'b-', label='completeness')
 pl.plot(totscores, purity, 'r--', label='purity')
 pl.xlabel('Score')
 pl.legend(numpoints=1, loc='lower left')
 pl.savefig('freelunch_contamination_MgII.png')
+
+
+# Calculate the score distribution for absorbers recovered by Pitt
+dr4_pfm = []
+for line in open('quider/unique_quider_qsos_inDR7.dat').readlines():
+    dr4_pfm.append(cols[0])
+
+pfm_pitt = []
+zabs_pitt = []
+for line in open('quider/MgII_absorber_catalog').readlines():
+    cols = line.split()
+    plate = int(cols[2])
+    fiber = int(cols[3])
+    mjd = int(cols[1])
+    pfm_pitt.append(str(plate).zfill(4)+'-'+str(fiber).zfill(3)+'-'+str(mjd))
+    zabs_pitt.append(float(cols[4]))
+
+print " "
+pitt_scores = []
+overlap=0.
+found_abovescore = []
+for score in poss_scores:
+    found_abovescore.append(0.)
+    
+allfound=0.
+allfound_abovescore = 0.
+for m in range(0,len(zabs_pitt)):
+    for n in range(0,len(tt_pfm)):
+            if pfm_pitt[m] == tt_pfm[n] and abs(zabs_pitt[m]-tt_zabs[n])<0.003:
+                allfound+=1
+                pitt_scores.append(probs_dr7[n][1])
+                for k in range(0,len(poss_scores)):
+                    if probs_dr7[n][1]>=poss_scores[k]:
+                        found_abovescore[k]+=1.
+for m in range(0,len(poss_scores)):
+    print "Fraction of Pitt absorbers recovered with score >= %.1f: %0.3f" % (poss_scores[m], found_abovescore[m]/len(zabs_pitt))
+
+pl.clf()
+pl.hist(pitt_scores,bbins)
+pl.xlabel('Score')
+pl.savefig('Pittscores_matched.png')

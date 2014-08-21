@@ -254,6 +254,7 @@ estimator.fit(X_train, Y)
 #X_test = X_test2
 # Results
 probs = estimator.predict_proba(X_test)
+probs_dr7 = probs
 
 # cross-validation tests
 Xtrain, Xtest, ytrain, ytest = train_test_split(np.array(X_train), np.array(Y), test_size=0.3, random_state=0)
@@ -413,8 +414,7 @@ for m in range(0,len(poss_scores)):
     contamination.append(false_positives/(true_positives+false_positives))
     purity.append(1.-false_positives/(true_positives+false_positives))
     totscores.append(poss_scores[m])
-print completeness
-print contamination
+
 pl.clf()
 pl.plot(totscores, completeness, 'b-', label='completeness')
 pl.plot(totscores, purity, 'r--', label='purity')
@@ -423,3 +423,49 @@ pl.legend(numpoints=1, loc='lower left')
 pl.savefig('freelunch_contamination_CIV.png')
         
 
+# Calculate the score distribution for absorbers recovered by Cooksey
+pfm_cook = []
+for line in open('cooksey/cooksey_searched_qsos.dat').readlines():
+    if line.startswith('#')==0:
+        cols = line.split()
+        mjd = str(cols[0]).split('-')[0]
+        plate = str(cols[0]).split('-')[1]
+        fiber = str(cols[0]).split('-')[2]
+        pfm_cook.append(plate+'-'+fiber+'-'+mjd)
+
+pfm_cook = []
+zabs_cook = []
+for line in open('cooksey/cooksey_civ_detections.dat').readlines():
+    if line.startswith('#')==0:
+        cols = line.split()
+        mjd = str(cols[1]).split('-')[0]
+        plate = str(cols[1]).split('-')[1]
+        fiber = str(cols[1]).split('-')[2]
+        pfm_cook.append(str(plate).zfill(4)+'-'+str(fiber).zfill(3)+'-'+str(mjd))
+        zabs_cook.append(float(cols[3]))
+
+
+print " "
+cook_scores = []
+overlap=0.
+found_abovescore = []
+for score in poss_scores:
+    found_abovescore.append(0.)
+    
+allfound=0.
+allfound_abovescore = 0.
+for m in range(0,len(zabs_cook)):
+    for n in range(0,len(tt_pfm)):
+            if pfm_cook[m] == tt_pfm[n] and abs(zabs_cook[m]-tt_zabs[n])<0.003:
+                allfound+=1
+                cook_scores.append(probs_dr7[n][1])
+                for k in range(0,len(poss_scores)):
+                    if probs_dr7[n][1]>=poss_scores[k]:
+                        found_abovescore[k]+=1.
+for m in range(0,len(poss_scores)):
+    print "Fraction of Cooksey absorbers recovered with score >= %.1f: %0.3f" % (poss_scores[m], found_abovescore[m]/len(zabs_cook))
+
+pl.clf()
+pl.hist(cook_scores,bbins)
+pl.xlabel('Score')
+pl.savefig('Cookscores_matched.png')

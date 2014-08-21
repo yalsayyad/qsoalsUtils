@@ -14,6 +14,18 @@ import pylab as pl
 from sklearn.cross_validation import train_test_split
 import random
 import pyfits
+import glob
+
+
+# read in list of already checked systems
+vi_files = glob.glob('vi_files/*')
+vi_pfm = []
+for file in vi_files:
+    for line in open(file).readlines():
+        cols = line.split()
+        if str(cols[0])!='#':
+            vi_pfm.append(str(cols[0]))
+            
 
 '''
 # make unique list of all Pitt quasars in DR7 (run once)
@@ -91,16 +103,17 @@ for line in open('dr7_MgII_in_dr4.dat').readlines():
     # plate-fiber-mjd  zqso imag zabs grade type MgII_ew1 MgIIewer1 MgII_ew2 MgII_ewer2 beta BAL1 BAL2
     if line.startswith('#')==0:
         cols = line.split()
-        lines.append(line.strip())
-        counter+=1
-        index_list.append(counter)
+        if cols[0] not in vi_pfm: # no longer including repeats of visually inspected objects
+            lines.append(line.strip())
+            counter+=1
+            index_list.append(counter)
 
 print "Total number of 4-sigma Mg II detections in the DR4: %i" % (counter)
 print " "
 
 # randomly draw from the list to make subset
 indices=[]
-for m in range(0,100):
+for m in range(0,1000):
     indices.append(popchoice(index_list))
 
 # write out to new catalog for visual inspection
@@ -149,19 +162,30 @@ for line in lines_short:
         
 # print out overlapping and non-overlapping systems to notes file for input to VI tool
 print >> fout, "# plate-fiber-mjd  zqso imag zabs grade type MgII_ew1 MgIIewer1 MgII_ew2 MgII_ewer2 beta BAL1 BAL2 VI notes"
+reps=0
+nonreps=0
 for m in range(0,len(overlapping)):
     if overlapping[m]==1:
         cols = lines_short[m].split()
-        print >> fout, "%s good" % lines_short[m].strip()
-
+        if str(cols[0]) not in vi_pfm: # added requirement that VI no longer be done on repeats
+            print >> fout, "%s good" % lines_short[m].strip()
+            nonreps+=1
+        else:
+            reps+=1
 for m in range(0,len(overlapping)):
     if overlapping[m]==0:
         cols = lines_short[m].split()
-        print >> fout, "%s" % lines_short[m].strip()
-        #print >> fout, "%20s %6.5f %6.5f %6.5f %6.5f %6.2f %2s %3s" % (str(cols[0]), float(cols[5]), float(cols[1]), float(cols[2]), float(cols[3]), 2796.4*(1.+float(cols[1])), str(cols[4]), str(cols[6]))
-
+        if str(cols[0]) not in vi_pfm: # added requirement that VI no longer be done on repeats
+            print >> fout, "%s" % lines_short[m].strip()
+            #print >> fout, "%20s %6.5f %6.5f %6.5f %6.5f %6.2f %2s %3s" % (str(cols[0]), float(cols[5]), float(cols[1]), float(cols[2]), float(cols[3]), 2796.4*(1.+float(cols[1])), str(cols[4]), str(cols[6]))
+            nonreps+=1
+        else:
+            reps+=1
 print "Fraction of random sample with detections in Pitt: %f" % (overlap/len(indices))
-        
+
+print " "
+print "Repeats included: %i" % (reps)
+print "New VI systems: %i" % (nonreps) 
 
     
 
