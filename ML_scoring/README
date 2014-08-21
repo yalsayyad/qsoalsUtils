@@ -1,0 +1,48 @@
+# Britt Lundgren
+# August 20, 2014
+#
+# Routine for creating machine-learning scores for QAL detection confidence.
+# The tests are separated for Mg II and C IV systems.  
+
+
+Steps for ML scoring the Mg II detections:
+---------------------------
+1) cd to the MgII_sample directory
+
+2) generate a randomly drawn subset of the DR7 Mg II absorption sample identified in DR4 quasar spectra:
+   >> python make_VIsamp_ML_MgII.py
+	
+   This will create a file 100 systems in length called "randsubset_dr7_absorbers_in_dr4_notes.dat", 
+   which is input for step 3.  The absorbers with confirmed detections in the Quider+2011 catalog
+   are automatically flagged as "good".
+
+3) Visually inspect the unmatched detections, using the interactive script:
+   >> python vi_interact_MgII.py
+
+4) When finished visually inspecting, the script will terminate.  Change the name to something unique
+   with the format "randsubset*MgII*.dat", and move to the directory "vi_files/".
+
+5) Run the Random Tree Classifier code and generate scores, using all visually-inspected files:
+  >> python gen_scores_MgII.py
+
+
+
+Steps for scoring the C IV detections:
+--------------------------------------
+1) cd to the CIV_sample directory
+
+2) generate a randomly drawn subset of the DR7 Mg II absorption sample identified in DR4 quasar spectra:
+   >> python make_VIsamp_ML_CIV.py
+	
+   This will create a file 100 systems in length called "randsubset_dr7_absorbers_in_cooksey_notes.dat”, 
+   which is input for step 3.  The absorbers with confirmed detections in the Cooksey+2013 catalog
+   are automatically flagged as "good".
+
+3) Visually inspect the unmatched detections, using the interactive script:
+   >> python vi_interact_CIV.py
+
+4) When finished visually inspecting, the script will terminate.  Change the name to something unique
+   with the format "randsubset*CIV*.dat", and move to the directory "vi_files/".
+
+5) Run the Random Tree Classifier code and generate scores, using all visually-inspected files:
+  >> python gen_scores_CIV.py
