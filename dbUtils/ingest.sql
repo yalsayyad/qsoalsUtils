@@ -2,7 +2,7 @@
 \copy cat_sys FROM './dbOutputTables/systems.txt' WITH DELIMITER ',' NULL AS E'\\N'
 \copy cat_line FROM './dbOutputTables/lines.txt' WITH DELIMITER ',' NULL AS E'\\N'
 \copy qsos FROM '/var/www/html/sdssdr7pub/data/qsos.txt' WITH CSV HEADER DELIMITER E'\t' NULL AS E'\\N'
-\copy column_alias FROM './column2Name.dat' WITH  DELIMITER ',' NULL AS E'\\N'
+\copy column_alias FROM './column2Name.dat' WITH  DELIMITER ',' NULL AS E''
 
 UPDATE cat_qso q
 SET agg_ab_sys = agg_z
