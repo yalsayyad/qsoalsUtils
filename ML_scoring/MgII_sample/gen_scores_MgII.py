@@ -78,7 +78,37 @@ def lettonum_type(type_str):
     else:
         print type_str
     return(dtype)
-    
+
+
+def plotPairwiseClass(X, Y, labels=None, **kwargs):
+    X = np.array(X)
+    Y = np.array(Y)
+    nVariables = X.shape[1]
+    fig = pl.figure(1, (11, 8.5))
+    grid = Grid(fig, 111, # similar to subplot(132)
+            nrows_ncols = (nVariables, nVariables),
+            axes_pad = 0.0,
+            share_all=False,
+            label_mode = "L",
+            direction="column",
+            )
+    if labels is None:
+        labels = ['var%d'%i for i in range(nVariables)]
+    for i in range(nVariables):
+        for j in range(nVariables):
+            nSub = i * (nVariables) + j
+            print nSub
+            if i == j:
+                n1, bins1 = np.histogram(X[:,i][np.where(np.array(Y)==1)], bins = 20)
+                n0, bins1 = np.histogram(X[:,i][np.where(np.array(Y)==0)], bins=bins1)
+                scaledata= np.max(X[:,i])/np.max((n0,n1))
+                grid[nSub].plot(.5*(bins1[0:-1]+bins1[1:]), scaledata* n1, 'b-')
+                grid[nSub].plot(.5*(bins1[0:-1]+bins1[1:]), scaledata* n0, 'r-')
+                grid[nSub].text(.5, .8, labels[i])
+            else:
+                grid[nSub].scatter(X[:,i], X[:,j], c=Y, alpha=0.2, linewidth=0, cmap='seismic',**kwargs)
+    return fig
+
 import sklearn
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
@@ -88,9 +118,11 @@ import glob
 import pyfits
 from sklearn.metrics import mean_squared_error
 from numpy import mean
+from mpl_toolkits.axes_grid1 import Grid
+
 
 ## set rest-frame W (2796A) lower limit
-wlim = 1.0
+wlim = 0.0
 
 ## Make test set
 tt_fiber = []
@@ -193,7 +225,6 @@ for vi_file in vi_files:
             counter+=1
             #if float(cols[6])/(1.+float(cols[3]))>wlim and ('M' in str(cols[5]) or 'F' in str(cols[5])):
             if float(cols[6])/(1.+float(cols[3]))>wlim:
-
                 t_fiber.append(int(str(cols[0]).split('-')[1]))
                 t_zabs.append(float(cols[3]))
                 t_W.append(float(cols[6])/(1.+float(cols[3])))
@@ -232,6 +263,7 @@ for m in range(0,size_data):
     newarr.append(t_beta[m])
     newarr.append(t_BAL[m])
     X_train.append(newarr)
+
 Y = t_good[0:size_data]
 feature_names = ['fiber', 'z_abs', 'MgII_W', 'MgII_SNR', 'DR', 'grade', 'imag', 'type', 'z_qso', 'beta', 'BAL']
 
@@ -272,8 +304,9 @@ estimator.fit(X_train, Y)
 probs = estimator.predict_proba(X_test)
 probs_dr7 = probs
 
-
-
+#plot pairwise training set
+fig = plotPairwiseClass(X_train, Y, labels=feature_names, s=2)
+fig.savefig('pairwiseTrainingSet.png')
 
 # cross-validation tests
 Xtrain, Xtest, ytrain, ytest = train_test_split(np.array(X_train), np.array(Y), test_size=0.3, random_state=0)
