@@ -86,9 +86,9 @@ import pylab as pl
 from sklearn.cross_validation import train_test_split
 import glob
 import pyfits
+from sklearn.metrics import mean_squared_error
+from numpy import mean
 
-# Initialize estimator
-estimator = RandomForestClassifier(n_estimators=20, max_depth=20, criterion='entropy')
 
 # Create data
 
@@ -248,6 +248,11 @@ print "Training data of length: %i, %i" % (len(Y), len(X_train))
 print "Test data of length: %i" % (len(X_test))
 print " "
 '''
+
+# Initialize estimator
+params = {'n_estimators': 10, 'max_depth': 10, 'criterion': 'entropy'}
+estimator = RandomForestClassifier(**params)
+
 # Fit (train) model
 estimator.fit(X_train, Y)
 
@@ -256,17 +261,68 @@ estimator.fit(X_train, Y)
 probs = estimator.predict_proba(X_test)
 probs_dr7 = probs
 
+
 # cross-validation tests
 Xtrain, Xtest, ytrain, ytest = train_test_split(np.array(X_train), np.array(Y), test_size=0.3, random_state=0)
 estimator.fit(Xtrain, ytrain)
-print estimator.score(Xtest, ytest)
+print "Correctness from cross-validation with 30 percent of sample: %0.4f" % (estimator.score(Xtest, ytest))
 probs = estimator.predict_proba(Xtest)
 X_test = Xtest
+mse = mean_squared_error(ytest, estimator.predict(Xtest))
+print("MSE: %.4f" % mse)
 
 print " "
 print 'N wrong (Training data): %i (%.4f)' % (np.sum(np.abs(Y-estimator.predict(X_train))), float(np.sum(np.abs(Y-estimator.predict(X_train))))/len(Y))
-#print 'N wrong (Test data):  %i (%.4f)' % (np.sum(np.abs(Y-estimator.predict(X_test))),float(np.sum(np.abs(Y-estimator.predict(X_test))))/len(X_test)) 
 print " "
+
+
+# Plot training deviance
+
+# compute test set deviance
+estimator_scores = []
+estimators_number = []
+for m in range(1,20):
+    estscore = []
+    for n in range(1,20):
+        counter+=1
+        params = {'n_estimators': m, 'max_depth': 10, 'criterion': 'entropy'}
+        estimator = RandomForestClassifier(**params)
+        Xtrain, Xtest, ytrain, ytest = train_test_split(np.array(X_train), np.array(Y), test_size=0.3, random_state=0)
+        estimator.fit(Xtrain, ytrain)
+        #print "Correctness from cross-validation with 30 percent of sample: %0.4f" % (estimator.score(Xtest, ytest))
+        estscore.append(estimator.score(Xtest,ytest))
+    estimator_scores.append(mean(estscore))
+    estimators_number.append(m)
+
+pl.clf()
+pl.plot(estimators_number,estimator_scores)
+pl.legend(loc='upper right')
+pl.xlabel('Number of estimators')
+pl.ylabel('Correctness')
+pl.savefig('Training_estimators.png')
+
+estimator_scores = []
+estimators_number = []
+for m in range(1,20):
+    estscore = []
+    for n in range(1,20):
+        counter+=1
+        params = {'n_estimators': 11, 'max_depth': m, 'criterion': 'entropy'}
+        estimator = RandomForestClassifier(**params)
+        Xtrain, Xtest, ytrain, ytest = train_test_split(np.array(X_train), np.array(Y), test_size=0.3, random_state=0)
+        estimator.fit(Xtrain, ytrain)
+        #print "Correctness from cross-validation with 30 percent of sample: %0.4f" % (estimator.score(Xtest, ytest))
+        estscore.append(estimator.score(Xtest,ytest))
+    estimator_scores.append(mean(estscore))
+    estimators_number.append(m)
+
+pl.clf()
+pl.plot(estimators_number,estimator_scores)
+pl.legend(loc='upper right')
+pl.xlabel('Max Depth')
+pl.ylabel('Correctness')
+pl.savefig('Training_depth.png')
+
 
 goodprobs = []
 badprobs = []
