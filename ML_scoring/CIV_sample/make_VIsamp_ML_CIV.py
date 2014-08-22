@@ -12,7 +12,8 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import pylab as pl
 from sklearn.cross_validation import train_test_split
-import random
+from numpy import random
+from random import choice
 import pyfits
 import glob
 
@@ -91,7 +92,7 @@ print " "
 # randomly draw from the list to make subset
 indices=[]
 for m in range(0,100):
-    indices.append(popchoice(index_list))
+    indices.append(choice(index_list))
 
 # write out to new catalog for visual inspection
 fout = open('randsubset_dr7_absorbers_in_cooksey.dat', 'w')

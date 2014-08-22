@@ -15,7 +15,8 @@ from sklearn.cross_validation import train_test_split
 import random
 import pyfits
 import glob
-
+from numpy import random
+from random import choice
 
 # read in list of already checked systems
 vi_files = glob.glob('vi_files/*')
@@ -114,7 +115,7 @@ print " "
 # randomly draw from the list to make subset
 indices=[]
 for m in range(0,1000):
-    indices.append(popchoice(index_list))
+    indices.append(choice(index_list))
 
 # write out to new catalog for visual inspection
 fout = open('randsubset_dr7_absorbers_in_dr4.dat', 'w')
