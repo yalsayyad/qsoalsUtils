@@ -3,7 +3,7 @@ agg_lid,agg lid,similar
 agg_line_deltav,agg line deltav,similar
 agg_line_deltaz,agg line deltaz,similar
 agg_line_fwhm,agg line fwhm,similar
-agg_line_ion_lam,agg line ion lam,
+agg_line_ion_lam,agg line ion lam,similar
 agg_line_ion_name,agg line ion name,similar
 agg_line_ly_a,agg line in lya forest,similar
 agg_line_obs_lam,agg line obs lam,similar
@@ -140,3 +140,34 @@ z_best,z qso (best),numeric
 z_fgal,z fg gal,numeric
 z_s10,z qso (S10),numeric
 zab,z (abs),numeric
+agg_ab_sys,agg_ab_sys,similar
+aliasname,aliasname,numeric
+balcode,balcode,numeric
+bestprimtarget,bestprimtarget,bool
+beta,beta,numeric
+column_name,column_name,numeric
+decl,decl,numeric
+deltav,deltav,numeric
+deltaz,deltaz,numeric
+first_sep,first_sep,numeric
+first_sn,first_sn,numeric
+fwhm,fwhm,numeric
+grade,grade,categorical
+lat,lat,numeric
+lg_rass_rate,lg_rass_rate,numeric
+lon,lon,numeric
+mode,mode,numeric
+morphology,morphology,bool
+objid,objid,numeric
+ra,ra,numeric
+rass_sep,rass_sep,numeric
+rass_sn,rass_sn,numeric
+scienceprimary,scienceprimary,numeric
+sdssname,sdssname,numeric
+snr,snr,numeric
+specid,specid,numeric
+table_name,table_name,numeric
+type,type,numeric
+uniform,uniform,numeric
+z,z,numeric
+imag,imag,numeric
